@@ -5,4 +5,4 @@
 ### 3.有修改文件或新增文件加上注释
 ### 4.每个分支修改无误后合并到master，合并后报错回退上一个版本
 ## 任务池
-![](https://github.com/guodongxiaren/ImageCache/raw/master/Logo/foryou.gif) 
+![](https://github.com/qingfengdaozhang/AssembleComputerExperiment/blob/master/任务池.png) 
