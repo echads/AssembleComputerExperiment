@@ -425,13 +425,25 @@ public class WaveVR_ControllerInputModule : BaseInputModule
 
     private void OnTriggerHover_Right()
     {
+
+
+
+
+
         GameObject _go = GetRightHandObject ();
         Debug3D.Instance.Debug("运行");
-        if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
-        {
-            Debug3D.Instance.Debug("Bumper");
+        if(_go.gameObject.tag=="ball")
+            if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
+            {
+                Debug3D.Instance.Debug("Bumper");
+                //GameManager.Instance.PutObject(_go);
+                //SportController.
 
-        }
+            }
+
+
+
+
         //ExecuteEvents.ExecuteHierarchy(_go, rightHandPointer, WaveVR_ExecuteEvents.pointerHoverHandler);
     }
 
