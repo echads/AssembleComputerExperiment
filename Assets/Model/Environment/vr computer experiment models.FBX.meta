@@ -1,0 +1,223 @@
+fileFormatVersion: 2
+guid: 77cd8b14f1476c8489a2264cee3fee2f
+timeCreated: 1521364164
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: auido
+    100002: auido2
+    100004: blackboard
+    100006: bookcase
+    100008: Cylinder007
+    100010: Cylinder008
+    100012: Cylinder009
+    100014: Cylinder010
+    100016: Cylinder011
+    100018: Cylinder012
+    100020: desk
+    100022: desk gless
+    100024: door 1
+    100026: door 2
+    100028: floor
+    100030: glass
+    100032: kuang
+    100034: light 1
+    100036: light 2
+    100038: little light
+    100040: modify line
+    100042: shelf
+    100044: shelf2
+    100046: simple decoration
+    100048: tip wall 003
+    100050: //RootNode
+    100052: wall
+    100054: wall decoration
+    100056: wall decoration2
+    100058: window
+    400000: auido
+    400002: auido2
+    400004: blackboard
+    400006: bookcase
+    400008: Cylinder007
+    400010: Cylinder008
+    400012: Cylinder009
+    400014: Cylinder010
+    400016: Cylinder011
+    400018: Cylinder012
+    400020: desk
+    400022: desk gless
+    400024: door 1
+    400026: door 2
+    400028: floor
+    400030: glass
+    400032: kuang
+    400034: light 1
+    400036: light 2
+    400038: little light
+    400040: modify line
+    400042: shelf
+    400044: shelf2
+    400046: simple decoration
+    400048: tip wall 003
+    400050: //RootNode
+    400052: wall
+    400054: wall decoration
+    400056: wall decoration2
+    400058: window
+    2300000: auido
+    2300002: auido2
+    2300004: blackboard
+    2300006: bookcase
+    2300008: Cylinder007
+    2300010: Cylinder008
+    2300012: Cylinder009
+    2300014: Cylinder010
+    2300016: Cylinder011
+    2300018: Cylinder012
+    2300020: desk
+    2300022: desk gless
+    2300024: door 1
+    2300026: door 2
+    2300028: floor
+    2300030: glass
+    2300032: kuang
+    2300034: light 1
+    2300036: light 2
+    2300038: modify line
+    2300040: shelf
+    2300042: shelf2
+    2300044: simple decoration
+    2300046: tip wall 003
+    2300048: wall
+    2300050: wall decoration
+    2300052: wall decoration2
+    2300054: window
+    3300000: auido
+    3300002: auido2
+    3300004: blackboard
+    3300006: bookcase
+    3300008: Cylinder007
+    3300010: Cylinder008
+    3300012: Cylinder009
+    3300014: Cylinder010
+    3300016: Cylinder011
+    3300018: Cylinder012
+    3300020: desk
+    3300022: desk gless
+    3300024: door 1
+    3300026: door 2
+    3300028: floor
+    3300030: glass
+    3300032: kuang
+    3300034: light 1
+    3300036: light 2
+    3300038: modify line
+    3300040: shelf
+    3300042: shelf2
+    3300044: simple decoration
+    3300046: tip wall 003
+    3300048: wall
+    3300050: wall decoration
+    3300052: wall decoration2
+    3300054: window
+    4300000: wall
+    4300002: floor
+    4300004: glass
+    4300006: modify line
+    4300008: light 1
+    4300010: Cylinder007
+    4300012: Cylinder008
+    4300014: Cylinder009
+    4300016: Cylinder010
+    4300018: Cylinder011
+    4300020: Cylinder012
+    4300022: tip wall 003
+    4300024: desk
+    4300026: simple decoration
+    4300028: wall decoration
+    4300030: wall decoration2
+    4300032: blackboard
+    4300034: door 1
+    4300036: door 2
+    4300038: bookcase
+    4300040: window
+    4300042: kuang
+    4300044: auido2
+    4300046: shelf2
+    4300048: shelf
+    4300050: auido
+    4300052: desk gless
+    4300054: light 2
+    7400000: Take 001
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 10
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
