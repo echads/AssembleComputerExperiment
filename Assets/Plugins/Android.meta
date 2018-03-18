@@ -1,7 +1,13 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Plugins/Android.meta
 guid: b8d5c6f4ca345d942a17b3066518806b
 folderAsset: yes
 timeCreated: 1521363471
+=======
+guid: 768f8570fc6dccc4995da9d02602d35d
+folderAsset: yes
+timeCreated: 1520856982
+>>>>>>> 0f395a04f8e760ba58ad7a46d9d9e3b5afec1cd5:Assets/Plugins/Android.meta
 licenseType: Pro
 DefaultImporter:
   userData: 
