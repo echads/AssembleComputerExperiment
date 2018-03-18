@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 public class GameManager : MonoBehaviour {
     public GameObject mainmenu;
@@ -35,7 +37,9 @@ public class GameManager : MonoBehaviour {
     private Guideassemblestate curGuideassemblestate;
     public bool isMAINBORADSTATE;//是否是主板状态
 
+    public GameManager BT;
 
+    
     private void Awake()
     {
         Instance = this;
@@ -219,5 +223,25 @@ public class GameManager : MonoBehaviour {
     {
 
     }
-	
+
+    /// <summary>
+    /// 抓取物体到手柄动画
+    /// </summary>
+    /// <param name="obj"></param>
+    public void PutObject(GameObject obj)
+    {
+        obj.transform.DOMove(BT.transform.position, 2);
+    }
+
+    /// <summary>
+    /// 移动到指定位置动画
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="destination"></param>
+    public void MoveDestination(GameManager obj, Transform destination)
+    {
+        obj.transform.DOMove(destination.position, 2);
+        
+    }
+
 }
