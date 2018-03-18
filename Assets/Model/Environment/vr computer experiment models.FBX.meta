@@ -149,6 +149,34 @@ ModelImporter:
     4300050: auido
     4300052: desk gless
     4300054: light 2
+    6400000: auido
+    6400002: auido2
+    6400004: blackboard
+    6400006: bookcase
+    6400008: Cylinder007
+    6400010: Cylinder008
+    6400012: Cylinder009
+    6400014: Cylinder010
+    6400016: Cylinder011
+    6400018: Cylinder012
+    6400020: desk
+    6400022: desk gless
+    6400024: door 1
+    6400026: door 2
+    6400028: floor
+    6400030: glass
+    6400032: kuang
+    6400034: light 1
+    6400036: light 2
+    6400038: modify line
+    6400040: shelf
+    6400042: shelf2
+    6400044: simple decoration
+    6400046: tip wall 003
+    6400048: wall
+    6400050: wall decoration
+    6400052: wall decoration2
+    6400054: window
     7400000: Take 001
     9500000: //RootNode
   materials:
@@ -179,7 +207,7 @@ ModelImporter:
     lODScreenPercentages: []
     globalScale: 10
     meshCompression: 0
-    addColliders: 0
+    addColliders: 1
     importBlendShapes: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
