@@ -113,15 +113,38 @@ public class WaveVR_EventHandler: MonoBehaviour,
     public void OnPointerHover (PointerEventData eventData)
     {
         //transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
-        Debug3D.Instance.Debug("Hover");
+
+        if (GameManager.Instance.controller != null)
+        {
+            LogicManager.Instance.SetValueColor(this.name, 1, true);
+            if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
+            {
+                GameManager.Instance.MoveDestination(this.gameObject);
+                Debug3D.Instance.Debug(GameManager.Instance.controller.name);
+            }
+        }
+
 
 
         if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
         {
-            GameManager.Instance.PutObject(this.gameObject);
-            GameManager.Instance.BecomeChild(this.gameObject);
-            GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+            //判断是否处于指导状态
+            if (GameManager.Instance.GetCurrentstate().Equals("GUIDEASSEMBLE")&&GameManager.Instance.controller==null)
+            {
 
+                GameManager.Instance.PutObject(this.gameObject);
+                GameManager.Instance.BecomeChild(this.gameObject);
+                GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+                LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
+
+            }
+            else
+            {
+
+                GameManager.Instance.PutObject(this.gameObject);
+                GameManager.Instance.BecomeChild(this.gameObject);
+                GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+            }
         }
     }
     #endregion

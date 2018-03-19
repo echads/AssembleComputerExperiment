@@ -13,10 +13,18 @@ public class GameManager : MonoBehaviour {
     public GameObject testmenu;
     public GameObject markmenu;
     public GameObject Scoremenu;
+
     public Image info;
     public Sprite[] infoSprite;
-    private GameObject controller;
-    private enum state
+    public GameObject controller=null;
+
+    public GameObject WaveVR;
+    public GameObject Initial;
+    public GameObject Study;
+    public GameObject Guide;
+    public bool isController=false;
+
+    public enum state
     {
         BEGIN,
         VIEW,
@@ -27,7 +35,7 @@ public class GameManager : MonoBehaviour {
         MARK,
         Score,
     }
-    private enum Guideassemblestate
+    public enum Guideassemblestate
     {
         MAINBORADSTATE,
         SOURCESTATE,
@@ -37,8 +45,8 @@ public class GameManager : MonoBehaviour {
 
 
     public static GameManager Instance { get; set; }
-    private state currentstate;
-    private Guideassemblestate curGuideassemblestate;
+    public state currentstate;
+    public Guideassemblestate curGuideassemblestate;
     public bool isMAINBORADSTATE;//是否是主板状态
 
     public GameObject BT;
@@ -48,15 +56,24 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+        WaveVR.transform.position = Initial.transform.position;
     }
     private void Update()
     {
-        if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper))
+        if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper)&& controller != null)
         {
             SetColliderEnableTrue();
-            Debug3D.Instance.Debug(controller.name + "0");
+            if(currentstate==state.GUIDEASSEMBLE)
+            {
+                LogicManager.Instance.SetValueColor(controller.name, 0, false);
+            }
             controller = null;
         }
+    }
+
+    public string GetCurrentstate()
+    {
+        return currentstate.ToString();
     }
     //void Update()
     //{
@@ -128,7 +145,14 @@ public class GameManager : MonoBehaviour {
     public void OnChoiceState()
     {
         currentstate = state.CHOICE;
-        
+        mainmenu.SetActive(true);
+        studymenu.SetActive(false);
+        viewmenu.SetActive(false);
+        testmenu.SetActive(false);
+        guidemenu.SetActive(false);
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(false);
+        WaveVR.transform.position = Initial.transform.position;
 
     }
     /// <summary>
@@ -145,6 +169,8 @@ public class GameManager : MonoBehaviour {
         markmenu.SetActive(false);
         Scoremenu.SetActive(false);
 
+       
+
     }
     /// <summary>
     /// 进入观看状态
@@ -159,6 +185,8 @@ public class GameManager : MonoBehaviour {
         guidemenu.SetActive(false);
         markmenu.SetActive(false);
         Scoremenu.SetActive(false);
+        WaveVR.transform.position = Study.transform.position;
+
     }
 
     /// <summary>
@@ -174,6 +202,10 @@ public class GameManager : MonoBehaviour {
         guidemenu.SetActive(true);
         markmenu.SetActive(false);
         Scoremenu.SetActive(false);
+
+
+        WaveVR.transform.position = Guide.transform.position;
+
 
         if (isMAINBORADSTATE)
         {
@@ -222,6 +254,7 @@ public class GameManager : MonoBehaviour {
         guidemenu.SetActive(false);
         markmenu.SetActive(true);
         Scoremenu.SetActive(false);
+        WaveVR.transform.position = Guide.transform.position;
 
     }
     public void ScoreState() 
@@ -281,13 +314,13 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="destination"></param>
-    //public void MoveDestination(GameManager obj, Transform destination)
-    //{
-    //    obj.transform.DOMove(destination.position, 2);
+    public void MoveDestination(GameObject obj)
+    {
+        controller.transform.DOMove(obj.transform.position, 2);
 
-    //}
+    }
 
-    
+
     public void BecomeChild(GameObject obj)
     {
         obj.transform.parent = BT.transform;
@@ -305,19 +338,24 @@ public class GameManager : MonoBehaviour {
     /// <param name="index"></param>
     public void SetColliderEnableFalse(GameObject obj)
     {
+        Debug3D.Instance.Debug("开始设置");
         if (controller == null)
         {
-            obj.GetComponent<BoxCollider>().enabled = false;
+            obj.GetComponent<MeshCollider>().enabled = false;
             obj.GetComponent<Rigidbody>().useGravity = false;
             controller = obj;
             Debug3D.Instance.Debug(controller.name + "关闭");
         }
     }
+    /// <summary>
+    /// 开启
+    /// </summary>
     public void SetColliderEnableTrue()
     {
         if (controller != null)
         {
-            controller.GetComponent<BoxCollider>().enabled = true;
+            Debug3D.Instance.Debug("开启" + controller.name);
+            controller.GetComponent<MeshCollider>().enabled = true;
             controller.GetComponent<Rigidbody>().useGravity = true;
             LeaveParent(controller);
         }
