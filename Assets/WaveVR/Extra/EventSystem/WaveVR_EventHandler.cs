@@ -13,6 +13,7 @@ using System.Collections;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using WaveVR_Log;
+using wvr;
 
 public class WaveVR_EventHandler: MonoBehaviour,
     IPointerEnterHandler,
@@ -47,10 +48,10 @@ public class WaveVR_EventHandler: MonoBehaviour,
     #region override event handling function
     public void OnPointerEnter (PointerEventData eventData)
     {
-        #if UNITY_EDITOR
-        Debug.Log("OnPointerEnter, camera: " + eventData.enterEventCamera);
-        #endif
-        Log.d (LOG_TAG, "OnPointerEnter, camera: " + eventData.enterEventCamera);
+        //#if UNITY_EDITOR
+        //Debug.Log("OnPointerEnter, camera: " + eventData.enterEventCamera);
+        //#endif
+        //Log.d (LOG_TAG, "OnPointerEnter, camera: " + eventData.enterEventCamera);
     }
 
     public void OnPointerExit (PointerEventData eventData)
@@ -60,30 +61,30 @@ public class WaveVR_EventHandler: MonoBehaviour,
 
     public void OnPointerDown (PointerEventData eventData)
     {
-        #if UNITY_EDITOR
-        Debug.Log("WaveVR_EventHandler::OnPointerDown");
-        #endif
-        Rotate ();
+        //#if UNITY_EDITOR
+        //Debug.Log("WaveVR_EventHandler::OnPointerDown");
+        //#endif
+        //Rotate ();
     }
     // Called when the pointer enters our GUI component.
     // Start tracking the mouse
     public void OnBeginDrag(PointerEventData eventData)
     {
-        goPosition = transform.position;
-        goPositionZ = transform.position.z;
+        //goPosition = transform.position;
+        //goPositionZ = transform.position.z;
 
-        #if UNITY_EDITOR
-        Debug.Log("WaveVR_EventHandler::OnBeginDrag, position: " + goPosition);
-        #endif
-        Log.d (LOG_TAG, "OnBeginDrag() position: " + goPosition);
+        //#if UNITY_EDITOR
+        //Debug.Log("WaveVR_EventHandler::OnBeginDrag, position: " + goPosition);
+        //#endif
+        //Log.d (LOG_TAG, "OnBeginDrag() position: " + goPosition);
 
-        StartCoroutine( "TrackPointer" );
+        //StartCoroutine( "TrackPointer" );
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Camera _cam = eventData.enterEventCamera;
-        goPosition = _cam.ScreenToWorldPoint (new Vector3 (eventData.position.x, eventData.position.y, goPositionZ));
+        //Camera _cam = eventData.enterEventCamera;
+        //goPosition = _cam.ScreenToWorldPoint (new Vector3 (eventData.position.x, eventData.position.y, goPositionZ));
         //Log.d (LOG_TAG, "OnDrag() camera: " + c + ", position: " + goPosition);
     }
 
@@ -91,28 +92,37 @@ public class WaveVR_EventHandler: MonoBehaviour,
     // Stop tracking the mouse
     public void OnEndDrag(PointerEventData eventData)
     {
-        #if UNITY_EDITOR
-        Debug.Log("WaveVR_EventHandler::OnEndDrag, position: " + goPosition);
-        #endif
-        Log.d (LOG_TAG, "OnEndDrag() position: " + goPosition);
+        //#if UNITY_EDITOR
+        //Debug.Log("WaveVR_EventHandler::OnEndDrag, position: " + goPosition);
+        //#endif
+        //Log.d (LOG_TAG, "OnEndDrag() position: " + goPosition);
 
-        StopCoroutine( "TrackPointer" );
+        //StopCoroutine( "TrackPointer" );
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        Camera c = eventData.enterEventCamera;
-        goPosition = c.ScreenToWorldPoint (new Vector3 (eventData.position.x, eventData.position.y, goPositionZ));
+        //Camera c = eventData.enterEventCamera;
+        //goPosition = c.ScreenToWorldPoint (new Vector3 (eventData.position.x, eventData.position.y, goPositionZ));
 
-        #if UNITY_EDITOR
-        Debug.Log("WaveVR_EventHandler::OnDrop, position: " + goPosition);
-        #endif
+        //#if UNITY_EDITOR
+        //Debug.Log("WaveVR_EventHandler::OnDrop, position: " + goPosition);
+        //#endif
     }
 
     public void OnPointerHover (PointerEventData eventData)
     {
-        transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
+        //transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
         Debug3D.Instance.Debug("Hover");
+
+
+        if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
+        {
+            GameManager.Instance.PutObject(this.gameObject);
+            GameManager.Instance.BecomeChild(this.gameObject);
+            GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+
+        }
     }
     #endregion
 
