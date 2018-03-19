@@ -305,10 +305,13 @@ public class GameManager : MonoBehaviour {
     /// <param name="index"></param>
     public void SetColliderEnableFalse(GameObject obj)
     {
-        obj.GetComponent<BoxCollider>().enabled = false;
-        obj.GetComponent<Rigidbody>().useGravity = false;
-        controller = obj;
-        Debug3D.Instance.Debug(controller.name+"关闭");
+        if (controller == null)
+        {
+            obj.GetComponent<BoxCollider>().enabled = false;
+            obj.GetComponent<Rigidbody>().useGravity = false;
+            controller = obj;
+            Debug3D.Instance.Debug(controller.name + "关闭");
+        }
     }
     public void SetColliderEnableTrue()
     {
