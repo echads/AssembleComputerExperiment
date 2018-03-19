@@ -425,8 +425,7 @@ public class WaveVR_ControllerInputModule : BaseInputModule
 
     private void OnTriggerHover_Right()
     {
-
-
+        //Generic_6DOF_MC_Action.FindObjectOfType<WVR_DeviceType.WVR_DeviceType_Controller_Right>.GetComponentInChildren<Transform>();
 
 
 
@@ -437,7 +436,8 @@ public class WaveVR_ControllerInputModule : BaseInputModule
             {
                 Debug3D.Instance.Debug("Bumper");
                 //GameManager.Instance.PutObject(_go);
-                //SportController.
+               // _go.gameObject.transform.GetComponent<SportController>().Move();
+               // _go.gameObject.transform.GetComponent<SportController>().MoveDestination();
 
             }
 

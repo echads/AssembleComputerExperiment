@@ -4,11 +4,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SportController : MonoBehaviour {
-    public Transform BT;
 
-	public void Move(GameObject obj)
+	public void Move(Transform controller)
     {
-        obj.transform.DOMove(BT.position, 2);
+        transform.DOMove(controller.position, 2);
     }
 
     /// <summary>
@@ -16,9 +15,9 @@ public class SportController : MonoBehaviour {
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="destination"></param>
-    public void MoveDestination(GameManager obj, Transform destination)
+    public void MoveDestination(Transform destination)
     {
-        obj.transform.DOMove(destination.position, 2);
+        transform.DOMove(destination.position, 2);
 
     }
 }
