@@ -228,20 +228,20 @@ public class GameManager : MonoBehaviour {
     /// 抓取物体到手柄动画
     /// </summary>
     /// <param name="obj"></param>
-    public void PutObject(GameObject obj)
-    {
-        obj.transform.DOMove(BT.transform.position, 2);
-    }
+    //public void PutObject(GameObject obj)
+    //{
+    //    obj.transform.DOMove(BT.transform.position, 2);
+    //}
 
     /// <summary>
     /// 移动到指定位置动画
     /// </summary>
     /// <param name="obj"></param>
     /// <param name="destination"></param>
-    public void MoveDestination(GameManager obj, Transform destination)
-    {
-        obj.transform.DOMove(destination.position, 2);
+    //public void MoveDestination(GameManager obj, Transform destination)
+    //{
+    //    obj.transform.DOMove(destination.position, 2);
         
-    }
+    //}
 
 }
