@@ -431,7 +431,7 @@ public class WaveVR_ControllerInputModule : BaseInputModule
 
 
         GameObject _go = GetRightHandObject ();
-        Debug3D.Instance.Debug("运行");
+        Debug3D.Instance.Debug("进入射线"+_go.name+_go.tag);
         if(_go.gameObject.tag=="ball")
             if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
             {

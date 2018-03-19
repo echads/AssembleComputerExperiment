@@ -45,7 +45,7 @@ IPointerHoverHandler
             if (WaveVR_Controller.Input(curFocusControllerType).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Touchpad) ||
 				WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
             {
-                moveSphere();
+                //moveSphere();
             }
         }
             
