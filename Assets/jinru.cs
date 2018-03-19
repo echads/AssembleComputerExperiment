@@ -6,12 +6,12 @@ public class jinru : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "touch")
-        {
-            GameManager.Instance.BecomeChild(other.gameObject);
-            GameManager.Instance.SetColliderEnableFalse(other.gameObject);
+        //if (other.tag == "touch")
+        //{
+        //    GameManager.Instance.BecomeChild(other.gameObject);
+        //    GameManager.Instance.SetColliderEnableFalse(other.gameObject);
           
-        }
+        //}
     }
 
 }
