@@ -14,6 +14,9 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using WaveVR_Log;
 using wvr;
+using System.Collections.Generic;
+using System;
+
 public class Go_Event: MonoBehaviour,
 IPointerUpHandler,
 IPointerEnterHandler,
@@ -32,12 +35,36 @@ IPointerHoverHandler
     public bool  isControllerFocus_L;
     private GameObject m_RightController;
     private GameObject m_LeftController;
+    //private Transform shoubing;
+    //private Transform[] childTrans;
+    //public GameObject shoubing_all;
     void Start(){
 		originalPos=transform.position;
+        //try
+        //{
+        //    childTrans = shoubing_all.GetComponentsInChildren<Transform>();
+        //    foreach (Transform child in childTrans)
+        //    {
+        //        if (child.name == "Generic_MC_R(Clone)")
+        //        {
+        //            shoubing = child;
+        //        }
+        //    }
+        //}
+        //catch(Exception e)
+        //{
+        //    Debug3D.Instance.Debug("Error");
+        //}
 	}
 
     void Update()
     {
+        //Debug3D.Instance.Debug(m_RightController.transform.position.ToString());
+        //if (shoubing != null)
+        //{
+        //   // Debug.Log(shoubing.transform.position.ToString());
+        //    Debug3D.Instance.Debug(shoubing.transform.position.ToString());
+        //}
         if (isControllerFocus_R || isControllerFocus_L)
         {
 //			Log.d(LOG_TAG,"Bumber Down :"+WaveVR_Controller.Input(curFocusControllerType).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper));
