@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour {
     public GameObject viewmenu;
     public GameObject guidemenu;
     public GameObject testmenu;
+    public GameObject markmenu;
+    public GameObject Scoremenu;
     public Image info;
     public Sprite[] infoSprite;
     private enum state
@@ -21,7 +23,8 @@ public class GameManager : MonoBehaviour {
         STUDY,
         TEST,
         GUIDEASSEMBLE,
-        MARK
+        MARK,
+        Score,
     }
     private enum Guideassemblestate
     {
@@ -118,6 +121,9 @@ public class GameManager : MonoBehaviour {
         
 
     }
+    /// <summary>
+    /// 进入学习状态
+    /// </summary>
     public void OnStudy()
     {
         currentstate = state.STUDY;
@@ -126,6 +132,9 @@ public class GameManager : MonoBehaviour {
         viewmenu.SetActive(false);
         testmenu.SetActive(false);
         guidemenu.SetActive(false);
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(false);
+
     }
     /// <summary>
     /// 进入观看状态
@@ -138,19 +147,8 @@ public class GameManager : MonoBehaviour {
         viewmenu.SetActive(true);
         testmenu.SetActive(false);
         guidemenu.SetActive(false);
-    }
-    /// <summary>
-    /// 进入测试状态
-    /// </summary>
-    public void OnTestState()
-    {
-        currentstate = state.TEST;
-        mainmenu.SetActive(false);
-        studymenu.SetActive(false);
-        viewmenu.SetActive(false);
-        testmenu.SetActive(true);
-        guidemenu.SetActive(false);
-
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(false);
     }
 
     /// <summary>
@@ -164,23 +162,43 @@ public class GameManager : MonoBehaviour {
         viewmenu.SetActive(false);
         testmenu.SetActive(false);
         guidemenu.SetActive(true);
-
-
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(false);
 
         if (isMAINBORADSTATE)
         {
-            //安装CPU，内存，显卡
-            OnMainboardState();
+           
 
         }
-        else
+        else 
         {
-
             Debug.Log("发生错误");
         }
 
 
+
+
+
+
+
     }
+    /// <summary>
+    /// 进入测试状态
+    /// </summary>
+    public void OnTestState()
+    {
+        currentstate = state.TEST;
+        mainmenu.SetActive(false);
+        studymenu.SetActive(false);
+        viewmenu.SetActive(false);
+        testmenu.SetActive(true);
+        guidemenu.SetActive(false);
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(false);
+
+    }
+
+   
    /// <summary>
    /// 进入测试组装状态
    /// </summary>
@@ -190,18 +208,33 @@ public class GameManager : MonoBehaviour {
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
-        testmenu.SetActive(true);
+        testmenu.SetActive(false);
         guidemenu.SetActive(false);
+        markmenu.SetActive(true);
+        Scoremenu.SetActive(false);
 
+    }
+    public void ScoreState() 
+    {
+        currentstate = state.Score;
+        mainmenu.SetActive(false);
+        studymenu.SetActive(false);
+        viewmenu.SetActive(false);
+        testmenu.SetActive(false);
+        guidemenu.SetActive(false);
+        markmenu.SetActive(false);
+        Scoremenu.SetActive(true);
+    
     }
 
 
 
 
     //主板状态执行的方法
-    public void OnMainboardState()
+    public void OnMainboardState(int index)
     {
-        //安装cpu 内存条，显卡
+       
+       
 
     }
 
@@ -223,6 +256,7 @@ public class GameManager : MonoBehaviour {
     {
 
     }
+    
 
     /// <summary>
     /// 抓取物体到手柄动画
