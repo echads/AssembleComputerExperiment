@@ -119,7 +119,7 @@ public class WaveVR_EventHandler: MonoBehaviour,
             LogicManager.Instance.SetValueColor(this.name, 1, true);
             if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
             {
-                GameManager.Instance.MoveDestination(this.gameObject);
+                GameManager.Instance.MoveDestination(LogicManager.Instance.GetPosition(this.gameObject.name));
                 Debug3D.Instance.Debug(GameManager.Instance.controller.name);
             }
         }
@@ -129,22 +129,20 @@ public class WaveVR_EventHandler: MonoBehaviour,
         if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
         {
             //判断是否处于指导状态
-            if (GameManager.Instance.GetCurrentstate().Equals("GUIDEASSEMBLE")&&GameManager.Instance.controller==null)
-            {
+            //if (GameManager.Instance.GetCurrentstate().Equals("GUIDEASSEMBLE")&&GameManager.Instance.controller==null)
+            //{
+
+            //    GameManager.Instance.PutObject(this.gameObject);
+            //    GameManager.Instance.BecomeChild(this.gameObject);
+            //    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+            //    LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
+
+            //}
 
                 GameManager.Instance.PutObject(this.gameObject);
                 GameManager.Instance.BecomeChild(this.gameObject);
                 GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-                LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
-
-            }
-            else
-            {
-
-                GameManager.Instance.PutObject(this.gameObject);
-                GameManager.Instance.BecomeChild(this.gameObject);
-                GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-            }
+            //}
         }
     }
     #endregion
