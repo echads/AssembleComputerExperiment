@@ -10,10 +10,44 @@ public class ControllerCenter : MonoBehaviour
 
     public Transform player;
     public Transform dic;
-    public float speed = 3;
+    public float speed = 1;
 
 
     // private WaveVR_Reticle rp;
+
+    private void Update()
+    {
+        if (WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetTouch(wvr.WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        {
+            var axis = WaveVR_Controller.Input(device).GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
+            float angle = VectorAngle(new Vector2(1, 0), axis);
+
+            //上
+            if (angle < -45 && angle > -135)
+            {
+                player.Translate(dic.forward * Time.deltaTime * speed);
+                //transform.Translate(transform.forward * Time.deltaTime * speed);
+            }
+            //下
+            else if (angle > 45 && angle < 135)
+            {
+                player.Translate(-dic.forward * Time.deltaTime * speed);
+                //transform.Translate(-transform.forward * Time.deltaTime * speed);
+            }
+            //左
+            else if ((angle < 180 && angle > 135) || (angle < -135 && angle > -180))
+            {
+                player.Translate(-dic.right * Time.deltaTime * speed);
+                //transform.Translate(-transform.forward * Time.deltaTime * speed);
+            }
+            //右
+            else if ((angle > 0 && angle < 45) || (angle < 0 && angle > -45))
+            {
+                player.Translate(dic.right * Time.deltaTime * speed);
+                //transform.Translate(transform.forward * Time.deltaTime * speed);
+            }
+        }
+    }
 
 
 
@@ -75,33 +109,7 @@ public class ControllerCenter : MonoBehaviour
     private void HandleTouchDownTouchpad()
     {
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Touchpad + " touch down");
-        var axis = WaveVR_Controller.Input(device).GetAxis(WVR_InputId.WVR_InputId_Alias1_Touchpad);
-        float angle = VectorAngle(new Vector2(1, 0), axis);
-
-        //上
-        if (angle < -45 && angle > -135)
-        {
-            player.Translate(dic.forward * Time.deltaTime * speed);
-            //transform.Translate(transform.forward * Time.deltaTime * speed);
-        }
-        //下
-        else if (angle > 45 && angle < 135)
-        {
-            player.Translate(-dic.forward * Time.deltaTime * speed);
-            //transform.Translate(-transform.forward * Time.deltaTime * speed);
-        }
-        //左
-        else if ((angle < 180 && angle > 135) || (angle < -135 && angle > -180))
-        {
-            player.Translate(-dic.right * Time.deltaTime * speed);
-            //transform.Translate(-transform.forward * Time.deltaTime * speed);
-        }
-        //右
-        else if ((angle > 0 && angle < 45) || (angle < 0 && angle > -45))
-        {
-            player.Translate(dic.right * Time.deltaTime * speed);
-            //transform.Translate(transform.forward * Time.deltaTime * speed);
-        }
+        
     }
 
     private void HandleTouchDownTrigger()

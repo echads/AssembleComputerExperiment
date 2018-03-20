@@ -15,7 +15,7 @@ using UnityEngine.UI;
 using WaveVR_Log;
 using wvr;
 
-public class WaveVR_EventHandler: MonoBehaviour,
+public class WaveVR_EventHandler : MonoBehaviour,
     IPointerEnterHandler,
     IPointerExitHandler,
     IPointerDownHandler,
@@ -30,23 +30,25 @@ public class WaveVR_EventHandler: MonoBehaviour,
     private Vector3 goPosition;
     private float goPositionZ;
 
-    private void TeleportRandomly ()
+    private GameObject InstallPosition;
+
+    private void TeleportRandomly()
     {
         Vector3 direction = UnityEngine.Random.onUnitSphere;
-        direction.y = Mathf.Clamp (direction.y, 0.5f, 1f);
-        direction.z = Mathf.Clamp (direction.z, 3f, 10f);
+        direction.y = Mathf.Clamp(direction.y, 0.5f, 1f);
+        direction.z = Mathf.Clamp(direction.z, 3f, 10f);
         float distance = 2 * UnityEngine.Random.value + 1.5f;
         transform.localPosition = direction * distance;
     }
 
     private void Rotate()
     {
-        transform.Rotate (72 * (10 * Time.deltaTime), 0, 0);
-        transform.Rotate (0, 72 * (10 * Time.deltaTime), 0);
+        transform.Rotate(72 * (10 * Time.deltaTime), 0, 0);
+        transform.Rotate(0, 72 * (10 * Time.deltaTime), 0);
     }
 
     #region override event handling function
-    public void OnPointerEnter (PointerEventData eventData)
+    public void OnPointerEnter(PointerEventData eventData)
     {
         //#if UNITY_EDITOR
         //Debug.Log("OnPointerEnter, camera: " + eventData.enterEventCamera);
@@ -54,12 +56,12 @@ public class WaveVR_EventHandler: MonoBehaviour,
         //Log.d (LOG_TAG, "OnPointerEnter, camera: " + eventData.enterEventCamera);
     }
 
-    public void OnPointerExit (PointerEventData eventData)
+    public void OnPointerExit(PointerEventData eventData)
     {
         // Do nothing
     }
 
-    public void OnPointerDown (PointerEventData eventData)
+    public void OnPointerDown(PointerEventData eventData)
     {
         //#if UNITY_EDITOR
         //Debug.Log("WaveVR_EventHandler::OnPointerDown");
@@ -110,40 +112,95 @@ public class WaveVR_EventHandler: MonoBehaviour,
         //#endif
     }
 
-    public void OnPointerHover (PointerEventData eventData)
+    public void OnPointerHover(PointerEventData eventData)
     {
-        //transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
-
-        if (GameManager.Instance.controller != null)
+        Debug3D.Instance.Debug("Hover");
+        if (GameManager.Instance.controller == null)
         {
-            LogicManager.Instance.SetValueColor(this.name, 1, true);
-            if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
+            if (GameManager.Instance.GetCurrentstate().Equals("MARK"))
             {
-                GameManager.Instance.MoveDestination(LogicManager.Instance.GetPosition(this.gameObject.name));
-                Debug3D.Instance.Debug(GameManager.Instance.controller.name);
+                Debug3D.Instance.Debug("mark"+this.gameObject.name);
+                if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper)&&this.gameObject.layer==4)
+                {
+                    Debug3D.Instance.Debug("开始捡去物体");
+                    GameManager.Instance.PutObject(this.gameObject);
+                    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+                    GameManager.Instance.BecomeChild(this.gameObject);
+                    if (this.gameObject.name.Equals(GameManager.Instance.curGuideassemblestate.ToString()))
+                    {
+                        LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
+                    }
+                    else
+                    {
+                        SourceManager.Instance.PlayError();
+                        LogicManager.Instance.SetValueColor(this.gameObject.name, 2, true);
+                    }
+                }
             }
         }
 
 
 
-        if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
+        if (GameManager.Instance.controller != null)
         {
-            //判断是否处于指导状态
-            //if (GameManager.Instance.GetCurrentstate().Equals("GUIDEASSEMBLE")&&GameManager.Instance.controller==null)
-            //{
+            if (GameManager.Instance.GetCurrentstate().Equals("MARK"))
+            {
+               
+                if(this.gameObject.layer==1)
+                {
+                    GameManager.Instance.isColliter = false;
+                    Debug3D.Instance.Debug("开始move"+this.name);
+                    if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
+                        if(this.gameObject.name.Equals(GameManager.Instance.curGuideassemblestate.ToString()))
+                        {
+                            GameManager.Instance.MoveDestination(this.gameObject);
+                            GameManager.Instance.LeaveParent();
+                            GameManager.Instance.SetColliderEnableTrue();
+                            GameManager.Instance.controller = null;
 
-            //    GameManager.Instance.PutObject(this.gameObject);
-            //    GameManager.Instance.BecomeChild(this.gameObject);
-            //    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-            //    LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
-
-            //}
-
-                GameManager.Instance.PutObject(this.gameObject);
-                GameManager.Instance.BecomeChild(this.gameObject);
-                GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-            //}
+                        }
+                }
+            }
         }
+        GameManager.Instance.isColliter = true;
+
+
+
+
+        //transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
+        //InstallPosition = LogicManager.Instance.GetPosition(this.name);
+
+
+        //if (GameManager.Instance.controller != null)
+        //{
+        //    LogicManager.Instance.SetValueColor(this.name, 1, true);
+        //    if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
+        //    {
+        //        GameManager.Instance.MoveDestination(InstallPosition);
+        //        Debug3D.Instance.Debug(GameManager.Instance.controller.name);
+        //        LogicManager.Instance.SetValueColor(this.name, 1, false);
+
+        //    }
+        //}
+        //if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
+        //{
+        //    //判断是否处于指导状态
+        //    //if (GameManager.Instance.GetCurrentstate().Equals("MARK") && GameManager.Instance.controller == null)
+        //    //{
+        //        Debug3D.Instance.Debug("开始mark");
+        //        GameManager.Instance.PutObject(this.gameObject);
+        //        GameManager.Instance.BecomeChild(this.gameObject);
+        //        GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+        //        LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
+        //    //}
+        //    //else
+        //    //{
+        //    //    GameManager.Instance.PutObject(this.gameObject);
+        //    //    GameManager.Instance.BecomeChild(this.gameObject);
+        //    //    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+        //    //}
+        //    //}
+        //}
     }
     #endregion
 

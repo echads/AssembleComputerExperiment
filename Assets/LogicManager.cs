@@ -11,6 +11,11 @@ public class LogicManager : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+        foreach(GameObject gameObject in positions)
+        {
+            gameObject.SetActive(false);
+        }
+       // Setposition("xianka", true);
     }
     /// <summary>
     /// 设置Color
@@ -52,7 +57,7 @@ public class LogicManager : MonoBehaviour {
     {
         foreach (GameObject gameObject in positions)
         {
-            if (name.Equals(gameObject.name + "_position"))
+            if (gameObject.name.Equals(name + "_position"))
             {
                 gameObject.SetActive(index);
             }
@@ -63,7 +68,7 @@ public class LogicManager : MonoBehaviour {
     {
         foreach (GameObject gameObject in positions)
         {
-            if (name.Equals( gameObject.name+"_position"))
+            if (gameObject.name.Equals(name+"_position"))
             {
                 return gameObject;
             }

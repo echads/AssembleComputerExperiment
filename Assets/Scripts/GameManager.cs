@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour {
     public GameObject testmenu;
     public GameObject markmenu;
     public GameObject Scoremenu;
-
+    public GameObject parents;
     public Image info;
     public Sprite[] infoSprite;
     public GameObject controller=null;
@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Study;
     public GameObject Guide;
     public bool isController=false;
-
+    public GameObject zhuban;
     public enum state
     {
         BEGIN,
@@ -37,10 +37,15 @@ public class GameManager : MonoBehaviour {
     }
     public enum Guideassemblestate
     {
-        MAINBORADSTATE,
-        SOURCESTATE,
-        CHASSISSTATE,
-        PERIPHERALSTATE,
+        cpu,
+        neicuntiao,
+        xianka,
+        zhuban,
+        dianyuan,
+        yingpan,
+        jiban,
+        jixiang,
+        xianshi
     }
 
 
@@ -51,25 +56,86 @@ public class GameManager : MonoBehaviour {
 
     public GameObject BT;
 
-
+    public bool isColliter=true;
     
     private void Awake()
     {
         Instance = this;
         WaveVR.transform.position = Initial.transform.position;
+        zhuban.gameObject.layer = 3;
+        //LogicManager.Instance.Setposition("xianka", true);
+
+       
     }
+    
     private void Update()
     {
-        if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper)&& controller != null)
+        if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper)&& controller != null&& isColliter)
         {
+
+
+            MoveDestination(PositionManager.Instance.GetInital(controller));
+            LogicManager.Instance.SetValueColor(controller.name, 1, false);
             SetColliderEnableTrue();
-            if(currentstate==state.GUIDEASSEMBLE)
-            {
-                LogicManager.Instance.SetValueColor(controller.name, 0, false);
-            }
             controller = null;
+            //SetColliderEnableTrue();
+            //if(currentstate==state.GUIDEASSEMBLE)
+            //{
+            //    LogicManager.Instance.SetValueColor(controller.name, 0, false);
+            //}
+            //controller = null;
         }
     }
+
+    /// <summary>
+    /// 更新撞击状态
+    /// </summary>
+    /// <param name="name"></param>
+    public void SetcurGuideassemblestate(string name)
+    {
+        if(name=="cpu")
+        {
+            curGuideassemblestate = Guideassemblestate.neicuntiao;
+            info.sprite = infoSprite[2];
+        }
+        else if(name == "neicuntiao")
+        {
+            curGuideassemblestate = Guideassemblestate.xianka;
+            info.sprite = infoSprite[4];
+        }
+        else if(name == "xianka")
+        {
+            curGuideassemblestate = Guideassemblestate.zhuban;
+            info.sprite = infoSprite[1];
+            zhuban.gameObject.layer=4;
+        }
+        else if(name == "zhuban")
+        {
+            curGuideassemblestate = Guideassemblestate.dianyuan;
+            info.sprite = infoSprite[1];
+        }
+        else if(name == "dianyuan")
+        {
+            curGuideassemblestate = Guideassemblestate.yingpan;
+            info.sprite = infoSprite[6];
+        }
+        else if(name == "yingpan")
+        {
+            curGuideassemblestate = Guideassemblestate.jiban;
+            info.sprite = infoSprite[6];
+        }
+        else if(name == "jiban")
+        {
+            curGuideassemblestate = Guideassemblestate.jixiang;
+            info.sprite = infoSprite[6];
+        }
+        else if(name == "jixiang")
+        {
+            curGuideassemblestate = Guideassemblestate.xianshi;
+            info.sprite = infoSprite[5];
+        }
+    }
+
 
     public string GetCurrentstate()
     {
@@ -256,6 +322,9 @@ public class GameManager : MonoBehaviour {
         //Scoremenu.SetActive(false);
         WaveVR.transform.position = Guide.transform.position;
 
+        curGuideassemblestate = Guideassemblestate.cpu;
+
+
     }
     //public void ScoreState() 
     //{
@@ -326,9 +395,10 @@ public class GameManager : MonoBehaviour {
         obj.transform.parent = BT.transform;
         obj.transform.parent.rotation = BT.transform.rotation;
     }
-    public void LeaveParent(GameObject obj)
+    public void LeaveParent()
     {
-        obj.transform.parent = null;
+        if(controller!=null)
+            controller.transform.parent = parents.transform;
     }
 
     /// <summary>
@@ -338,10 +408,9 @@ public class GameManager : MonoBehaviour {
     /// <param name="index"></param>
     public void SetColliderEnableFalse(GameObject obj)
     {
-        Debug3D.Instance.Debug("开始设置");
         if (controller == null)
         {
-            obj.GetComponent<MeshCollider>().enabled = false;
+            obj.GetComponent<Collider>().enabled = false;
             obj.GetComponent<Rigidbody>().useGravity = false;
             controller = obj;
             Debug3D.Instance.Debug(controller.name + "关闭");
@@ -355,9 +424,9 @@ public class GameManager : MonoBehaviour {
         if (controller != null)
         {
             Debug3D.Instance.Debug("开启" + controller.name);
-            controller.GetComponent<MeshCollider>().enabled = true;
-            controller.GetComponent<Rigidbody>().useGravity = true;
-            LeaveParent(controller);
+            controller.GetComponent<Collider>().enabled = true;
+            controller.GetComponent<Rigidbody>().useGravity = false;
+            LeaveParent();
         }
     }
 
