@@ -149,9 +149,9 @@ public class GameManager : MonoBehaviour {
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
         testmenu.SetActive(false);
-        guidemenu.SetActive(false);
+        //guidemenu.SetActive(false);
         markmenu.SetActive(false);
-        Scoremenu.SetActive(false);
+        //Scoremenu.SetActive(false);
         WaveVR.transform.position = Initial.transform.position;
 
     }
@@ -165,9 +165,9 @@ public class GameManager : MonoBehaviour {
         studymenu.SetActive(true);
         viewmenu.SetActive(false);
         testmenu.SetActive(false);
-        guidemenu.SetActive(false);
+        //guidemenu.SetActive(false);
         markmenu.SetActive(false);
-        Scoremenu.SetActive(false);
+        //Scoremenu.SetActive(false);
 
        
 
@@ -182,9 +182,9 @@ public class GameManager : MonoBehaviour {
         studymenu.SetActive(false);
         viewmenu.SetActive(true);
         testmenu.SetActive(false);
-        guidemenu.SetActive(false);
+        //guidemenu.SetActive(false);
         markmenu.SetActive(false);
-        Scoremenu.SetActive(false);
+        //Scoremenu.SetActive(false);
         WaveVR.transform.position = Study.transform.position;
 
     }
@@ -192,30 +192,30 @@ public class GameManager : MonoBehaviour {
     /// <summary>
     /// 进入指导组装状态
     /// </summary>
-    public void OnGuideassembleState()
-    { //指导电脑的安装，装错会报错
-        currentstate = state.GUIDEASSEMBLE;
-        mainmenu.SetActive(false);
-        studymenu.SetActive(false);
-        viewmenu.SetActive(false);
-        testmenu.SetActive(false);
-        guidemenu.SetActive(true);
-        markmenu.SetActive(false);
-        Scoremenu.SetActive(false);
+    //public void OnGuideassembleState()
+    //{ //指导电脑的安装，装错会报错
+    //    currentstate = state.GUIDEASSEMBLE;
+    //    mainmenu.SetActive(false);
+    //    studymenu.SetActive(false);
+    //    viewmenu.SetActive(false);
+    //    testmenu.SetActive(false);
+    //    guidemenu.SetActive(true);
+    //    markmenu.SetActive(false);
+    //    Scoremenu.SetActive(false);
 
 
-        WaveVR.transform.position = Guide.transform.position;
+    //    WaveVR.transform.position = Guide.transform.position;
 
 
-        if (isMAINBORADSTATE)
-        {
+    //    if (isMAINBORADSTATE)
+    //    {
            
 
-        }
-        else 
-        {
-            Debug.Log("发生错误");
-        }
+    //    }
+    //    else 
+    //    {
+    //        Debug.Log("发生错误");
+    //    }
 
 
 
@@ -223,7 +223,7 @@ public class GameManager : MonoBehaviour {
 
 
 
-    }
+    //}
     /// <summary>
     /// 进入测试状态
     /// </summary>
@@ -234,9 +234,9 @@ public class GameManager : MonoBehaviour {
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
         testmenu.SetActive(true);
-        guidemenu.SetActive(false);
+        //guidemenu.SetActive(false);
         markmenu.SetActive(false);
-        Scoremenu.SetActive(false);
+       // Scoremenu.SetActive(false);
 
     }
 
@@ -251,24 +251,24 @@ public class GameManager : MonoBehaviour {
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
         testmenu.SetActive(false);
-        guidemenu.SetActive(false);
+        //guidemenu.SetActive(false);
         markmenu.SetActive(true);
-        Scoremenu.SetActive(false);
+        //Scoremenu.SetActive(false);
         WaveVR.transform.position = Guide.transform.position;
 
     }
-    public void ScoreState() 
-    {
-        currentstate = state.Score;
-        mainmenu.SetActive(false);
-        studymenu.SetActive(false);
-        viewmenu.SetActive(false);
-        testmenu.SetActive(false);
-        guidemenu.SetActive(false);
-        markmenu.SetActive(false);
-        Scoremenu.SetActive(true);
+    //public void ScoreState() 
+    //{
+    //    currentstate = state.Score;
+    //    mainmenu.SetActive(false);
+    //    studymenu.SetActive(false);
+    //    viewmenu.SetActive(false);
+    //    testmenu.SetActive(false);
+    //    guidemenu.SetActive(false);
+    //    markmenu.SetActive(false);
+    //    Scoremenu.SetActive(true);
     
-    }
+    //}
 
 
 
