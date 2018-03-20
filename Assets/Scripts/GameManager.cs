@@ -17,13 +17,21 @@ public class GameManager : MonoBehaviour {
     public Image info;
     public Sprite[] infoSprite;
     public GameObject controller=null;
+    public GameObject studyGameObject;
+    public GameObject guideGameObject;
 
+    public GameObject sprite;
     public GameObject WaveVR;
     public GameObject Initial;
     public GameObject Study;
     public GameObject Guide;
     public bool isController=false;
     public GameObject zhuban;
+    public GameObject jixiang;
+
+    public GameObject mainUI;
+
+    public GameObject bg;
     public enum state
     {
         BEGIN,
@@ -61,10 +69,13 @@ public class GameManager : MonoBehaviour {
     private void Awake()
     {
         Instance = this;
+        sprite.SetActive(true);
         WaveVR.transform.position = Initial.transform.position;
         zhuban.gameObject.layer = 3;
+        jixiang.gameObject.layer = 5;
         //LogicManager.Instance.Setposition("xianka", true);
-
+        studyGameObject.SetActive(false);
+        guideGameObject.SetActive(false);
        
     }
     
@@ -73,9 +84,11 @@ public class GameManager : MonoBehaviour {
         if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper)&& controller != null&& isColliter)
         {
 
-
+            Debug3D.Instance.Debug(controller.name + "moveinital");
             MoveDestination(PositionManager.Instance.GetInital(controller));
+            Debug3D.Instance.Debug(controller.name + "setvalurcolor");
             LogicManager.Instance.SetValueColor(controller.name, 1, false);
+            Debug3D.Instance.Debug(controller.name + "set");
             SetColliderEnableTrue();
             controller = null;
             //SetColliderEnableTrue();
@@ -84,6 +97,10 @@ public class GameManager : MonoBehaviour {
             //    LogicManager.Instance.SetValueColor(controller.name, 0, false);
             //}
             //controller = null;
+        }
+        if (currentstate.ToString().Equals("MARK") && WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(wvr.WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        {
+            mainUI.SetActive(!mainUI.activeSelf);
         }
     }
 
@@ -95,6 +112,7 @@ public class GameManager : MonoBehaviour {
     {
         if(name=="cpu")
         {
+            bg.SetActive(false);
             curGuideassemblestate = Guideassemblestate.neicuntiao;
             info.sprite = infoSprite[2];
         }
@@ -108,11 +126,13 @@ public class GameManager : MonoBehaviour {
             curGuideassemblestate = Guideassemblestate.zhuban;
             info.sprite = infoSprite[1];
             zhuban.gameObject.layer=4;
+           // jixiang.gameObject.layer = 3;
+            
         }
         else if(name == "zhuban")
         {
             curGuideassemblestate = Guideassemblestate.dianyuan;
-            info.sprite = infoSprite[1];
+            info.sprite = infoSprite[3];
         }
         else if(name == "dianyuan")
         {
@@ -122,12 +142,15 @@ public class GameManager : MonoBehaviour {
         else if(name == "yingpan")
         {
             curGuideassemblestate = Guideassemblestate.jiban;
-            info.sprite = infoSprite[6];
+            info.sprite = infoSprite[8];
         }
         else if(name == "jiban")
         {
             curGuideassemblestate = Guideassemblestate.jixiang;
-            info.sprite = infoSprite[6];
+            info.sprite = infoSprite[5];
+            mainUI.SetActive(true);
+            SourceManager.Instance.PlayFinish();
+            //jixiang.gameObject.layer = 4;
         }
         else if(name == "jixiang")
         {
@@ -141,59 +164,8 @@ public class GameManager : MonoBehaviour {
     {
         return currentstate.ToString();
     }
-    //void Update()
-    //{
-    //    switch (currentstate)
-    //    {
-    //        case state.BEGIN:
-    //            print("Begin...");
-    //            OnBeginState();
-    //            break;
-    //        case state.CHOICE:
-    //            print("Choice...");
-    //            OnChoiceState();
-    //            break;
-    //        case state.VIEW:
-    //            print("View...");
-    //            OnViewState();
-    //            break;
-    //        case state.TEST:
-    //            print("Test...");
-    //            OnTestState();
-    //            break;
-    //        case state.GUIDEASSEMBLE:
-    //            print("Guideassemble...");
-    //            OnGuideassembleState();
-    //            break;
-    //        case state.MARK:
-    //            print("Mark...");
-    //            OnMarkState();
-    //            break;
-    //    }
-    //    switch (curGuideassemblestate)
-    //    {
-    //        case Guideassemblestate.MAINBORADSTATE:
-    //            //处于主板状态执行代码
-    //            OnMarkState();
-    //            break;
-    //        case Guideassemblestate.SOURCESTATE:
-    //            //处于电源设备状态执行的代码
-    //            OnMainboardState();
-    //            break;
-    //        case Guideassemblestate.CHASSISSTATE:
-    //            //处于机箱设备状态执行的代码
-    //            OnSourceState();
-    //            break;
-    //        case Guideassemblestate.PERIPHERALSTATE:
-    //            //处于外设状态执行的代码
-    //            OnPeripheralState();
-    //            break;
 
 
-
-
-    //    }
-    //}
     /// <summary>
     /// 进入开始状态
     /// </summary>
@@ -210,6 +182,9 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void OnChoiceState()
     {
+        sprite.SetActive(false);
+
+
         currentstate = state.CHOICE;
         mainmenu.SetActive(true);
         studymenu.SetActive(false);
@@ -219,13 +194,15 @@ public class GameManager : MonoBehaviour {
         markmenu.SetActive(false);
         //Scoremenu.SetActive(false);
         WaveVR.transform.position = Initial.transform.position;
-
+        guideGameObject.SetActive(false);
+        studyGameObject.SetActive(false);
     }
     /// <summary>
     /// 进入学习状态
     /// </summary>
     public void OnStudy()
     {
+        sprite.SetActive(false);
         currentstate = state.STUDY;
         mainmenu.SetActive(false);
         studymenu.SetActive(true);
@@ -243,6 +220,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void OnViewState()
     {
+        sprite.SetActive(false);
         currentstate = state.VIEW;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
@@ -252,41 +230,8 @@ public class GameManager : MonoBehaviour {
         markmenu.SetActive(false);
         //Scoremenu.SetActive(false);
         WaveVR.transform.position = Study.transform.position;
-
+        studyGameObject.SetActive(true);
     }
-
-    /// <summary>
-    /// 进入指导组装状态
-    /// </summary>
-    //public void OnGuideassembleState()
-    //{ //指导电脑的安装，装错会报错
-    //    currentstate = state.GUIDEASSEMBLE;
-    //    mainmenu.SetActive(false);
-    //    studymenu.SetActive(false);
-    //    viewmenu.SetActive(false);
-    //    testmenu.SetActive(false);
-    //    guidemenu.SetActive(true);
-    //    markmenu.SetActive(false);
-    //    Scoremenu.SetActive(false);
-
-
-    //    WaveVR.transform.position = Guide.transform.position;
-
-
-    //    if (isMAINBORADSTATE)
-    //    {
-           
-
-    //    }
-    //    else 
-    //    {
-    //        Debug.Log("发生错误");
-    //    }
-
-
-
-
-
 
 
     //}
@@ -295,6 +240,7 @@ public class GameManager : MonoBehaviour {
     /// </summary>
     public void OnTestState()
     {
+        sprite.SetActive(false);
         currentstate = state.TEST;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
@@ -312,6 +258,7 @@ public class GameManager : MonoBehaviour {
    /// </summary>
     public void OnMarkState()
     {
+        sprite.SetActive(false);
         currentstate = state.MARK;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
@@ -322,22 +269,21 @@ public class GameManager : MonoBehaviour {
         //Scoremenu.SetActive(false);
         WaveVR.transform.position = Guide.transform.position;
 
+        guideGameObject.SetActive(true);
+
         curGuideassemblestate = Guideassemblestate.cpu;
+
+        PositionManager.Instance.SetInitalAll();
+
+
+        bg.SetActive(true);
+
+        mainUI.SetActive(false);
+
+
 
 
     }
-    //public void ScoreState() 
-    //{
-    //    currentstate = state.Score;
-    //    mainmenu.SetActive(false);
-    //    studymenu.SetActive(false);
-    //    viewmenu.SetActive(false);
-    //    testmenu.SetActive(false);
-    //    guidemenu.SetActive(false);
-    //    markmenu.SetActive(false);
-    //    Scoremenu.SetActive(true);
-    
-    //}
 
 
 
@@ -377,7 +323,7 @@ public class GameManager : MonoBehaviour {
     {
         obj.transform.DOMove(BT.transform.position, 2);
     }
-
+    
     /// <summary>
     /// 移动到指定位置动画
     /// </summary>
@@ -410,7 +356,9 @@ public class GameManager : MonoBehaviour {
     {
         if (controller == null)
         {
+            Debug3D.Instance.Debug(obj.name + "开始减去mesh");
             obj.GetComponent<Collider>().enabled = false;
+            Debug3D.Instance.Debug(obj.name + "开始减去ganti");
             obj.GetComponent<Rigidbody>().useGravity = false;
             controller = obj;
             Debug3D.Instance.Debug(controller.name + "关闭");
@@ -423,10 +371,17 @@ public class GameManager : MonoBehaviour {
     {
         if (controller != null)
         {
-            Debug3D.Instance.Debug("开启" + controller.name);
-            controller.GetComponent<Collider>().enabled = true;
-            controller.GetComponent<Rigidbody>().useGravity = false;
+            Debug3D.Instance.Debug(controller.name + "Begin");
+            try
+            {
+                controller.GetComponent<Collider>().enabled = true;
+                controller.GetComponent<Rigidbody>().useGravity = false;
+            }
+            catch
+            {
+            }
             LeaveParent();
+            Debug3D.Instance.Debug(controller.name + "开始离开" + controller.GetComponentInParent<Transform>().name);
         }
     }
 

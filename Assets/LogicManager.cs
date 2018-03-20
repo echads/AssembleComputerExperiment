@@ -15,6 +15,7 @@ public class LogicManager : MonoBehaviour {
         {
             gameObject.SetActive(false);
         }
+
        // Setposition("xianka", true);
     }
     /// <summary>

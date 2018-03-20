@@ -114,7 +114,7 @@ public class WaveVR_EventHandler : MonoBehaviour,
 
     public void OnPointerHover(PointerEventData eventData)
     {
-        Debug3D.Instance.Debug("Hover");
+        Debug3D.Instance.Debug(this.name);
         if (GameManager.Instance.controller == null)
         {
             if (GameManager.Instance.GetCurrentstate().Equals("MARK"))
@@ -128,6 +128,16 @@ public class WaveVR_EventHandler : MonoBehaviour,
                     GameManager.Instance.BecomeChild(this.gameObject);
                     if (this.gameObject.name.Equals(GameManager.Instance.curGuideassemblestate.ToString()))
                     {
+                        if(this.gameObject.name=="jiban")
+                        {
+                            SourceManager.Instance.PlayTrue();
+                            LogicManager.Instance.SetComponents("jiban", false);
+                            LogicManager.Instance.Setposition("jiban", true);
+                            LogicManager.Instance.SetValueColor("jiban", 1, false);
+                            GameManager.Instance.SetcurGuideassemblestate("jiban");
+                            GameManager.Instance.controller = null;
+                        }
+
                         LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
                     }
                     else
@@ -143,9 +153,10 @@ public class WaveVR_EventHandler : MonoBehaviour,
 
         if (GameManager.Instance.controller != null)
         {
+            Debug3D.Instance.Debug("kaishimark+:"+this.name);
             if (GameManager.Instance.GetCurrentstate().Equals("MARK"))
             {
-               
+                Debug3D.Instance.Debug("jiaixngmark:"+this.name);
                 if(this.gameObject.layer==1)
                 {
                     GameManager.Instance.isColliter = false;
@@ -165,42 +176,6 @@ public class WaveVR_EventHandler : MonoBehaviour,
         GameManager.Instance.isColliter = true;
 
 
-
-
-        //transform.Rotate (0, 12 * (10 * Time.deltaTime), 0);
-        //InstallPosition = LogicManager.Instance.GetPosition(this.name);
-
-
-        //if (GameManager.Instance.controller != null)
-        //{
-        //    LogicManager.Instance.SetValueColor(this.name, 1, true);
-        //    if (WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(WVR_InputId.WVR_InputId_Alias1_Bumper))
-        //    {
-        //        GameManager.Instance.MoveDestination(InstallPosition);
-        //        Debug3D.Instance.Debug(GameManager.Instance.controller.name);
-        //        LogicManager.Instance.SetValueColor(this.name, 1, false);
-
-        //    }
-        //}
-        //if(WaveVR_Controller.Input(WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(WVR_InputId.WVR_InputId_Alias1_Bumper))
-        //{
-        //    //判断是否处于指导状态
-        //    //if (GameManager.Instance.GetCurrentstate().Equals("MARK") && GameManager.Instance.controller == null)
-        //    //{
-        //        Debug3D.Instance.Debug("开始mark");
-        //        GameManager.Instance.PutObject(this.gameObject);
-        //        GameManager.Instance.BecomeChild(this.gameObject);
-        //        GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-        //        LogicManager.Instance.SetValueColor(this.gameObject.name, 0, true);
-        //    //}
-        //    //else
-        //    //{
-        //    //    GameManager.Instance.PutObject(this.gameObject);
-        //    //    GameManager.Instance.BecomeChild(this.gameObject);
-        //    //    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
-        //    //}
-        //    //}
-        //}
     }
     #endregion
 
