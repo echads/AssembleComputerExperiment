@@ -13,7 +13,7 @@ public class OnTriggerEnterController : MonoBehaviour {
             LogicManager.Instance.SetComponents(other.gameObject.name, false);
             LogicManager.Instance.Setposition(other.gameObject.name, true);
             LogicManager.Instance.SetValueColor(other.gameObject.name,0, false);
-            GameManager.Instance.SetcurGuideassemblestate(this.name);
+            //GameManager.Instance.SetcurGuideassemblestate(this.name);
         }
         if(other.name.Equals("xianshi"))
         {

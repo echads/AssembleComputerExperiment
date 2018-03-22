@@ -33,6 +33,8 @@ public class LogicManager : MonoBehaviour {
             }
         }
     }
+
+    
     /// <summary>
     /// 设置Components
     /// </summary>

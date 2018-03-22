@@ -30,6 +30,8 @@ public class WaveVR_EventHandler : MonoBehaviour,
     private Vector3 goPosition;
     private float goPositionZ;
 
+    public GameObject img;
+
     private GameObject InstallPosition;
 
     private void TeleportRandomly()
@@ -54,11 +56,16 @@ public class WaveVR_EventHandler : MonoBehaviour,
         //Debug.Log("OnPointerEnter, camera: " + eventData.enterEventCamera);
         //#endif
         //Log.d (LOG_TAG, "OnPointerEnter, camera: " + eventData.enterEventCamera);
+        Debug3D.Instance.Debug("显示");
+        img.SetActive(true);
+        
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         // Do nothing
+        Debug3D.Instance.Debug("不现实");
+        img.SetActive(false);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -114,9 +121,12 @@ public class WaveVR_EventHandler : MonoBehaviour,
 
     public void OnPointerHover(PointerEventData eventData)
     {
-        Debug3D.Instance.Debug(this.name);
+
+
+
         if (GameManager.Instance.controller == null)
         {
+
             if (GameManager.Instance.GetCurrentstate().Equals("MARK"))
             {
                 Debug3D.Instance.Debug("mark"+this.gameObject.name);
@@ -124,7 +134,7 @@ public class WaveVR_EventHandler : MonoBehaviour,
                 {
                     Debug3D.Instance.Debug("开始捡去物体");
                     GameManager.Instance.PutObject(this.gameObject);
-                    GameManager.Instance.SetColliderEnableFalse(this.gameObject);
+                    //GameManager.Instance.SetColliderEnableFalse(this.gameObject);
                     GameManager.Instance.BecomeChild(this.gameObject);
                     if (this.gameObject.name.Equals(GameManager.Instance.curGuideassemblestate.ToString()))
                     {
@@ -134,7 +144,7 @@ public class WaveVR_EventHandler : MonoBehaviour,
                             LogicManager.Instance.SetComponents("jiban", false);
                             LogicManager.Instance.Setposition("jiban", true);
                             LogicManager.Instance.SetValueColor("jiban", 1, false);
-                            GameManager.Instance.SetcurGuideassemblestate("jiban");
+                            //GameManager.Instance.SetcurGuideassemblestate("jiban");
                             GameManager.Instance.controller = null;
                         }
 
@@ -166,9 +176,8 @@ public class WaveVR_EventHandler : MonoBehaviour,
                         {
                             GameManager.Instance.MoveDestination(this.gameObject);
                             GameManager.Instance.LeaveParent();
-                            GameManager.Instance.SetColliderEnableTrue();
+                          //  GameManager.Instance.SetColliderEnableTrue();
                             GameManager.Instance.controller = null;
-
                         }
                 }
             }
@@ -188,4 +197,5 @@ public class WaveVR_EventHandler : MonoBehaviour,
             transform.position = goPosition;
         }
     }
+    
 }

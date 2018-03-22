@@ -24,7 +24,7 @@ public class PositionManager : MonoBehaviour {
 
     }
     /// <summary>
-    /// 初始化gameobject位置
+    /// 获取gameobject位置
     /// </summary>
     /// <param name="gameObject"></param>
     public GameObject GetInital(GameObject gameObject)

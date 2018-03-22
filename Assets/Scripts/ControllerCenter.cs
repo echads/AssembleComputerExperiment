@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using wvr;
 using WaveVR_Log;
+using DG.Tweening;
 
 public class ControllerCenter : MonoBehaviour
 {
@@ -11,6 +12,11 @@ public class ControllerCenter : MonoBehaviour
     public Transform player;
     public Transform dic;
     public float speed = 1;
+    public GameObject sprite;
+    public GameObject spritePosition;
+    private GameObject obj;
+    private bool istag = true;
+    private bool istag1 = true;
 
 
     // private WaveVR_Reticle rp;
@@ -47,6 +53,7 @@ public class ControllerCenter : MonoBehaviour
                 //transform.Translate(transform.forward * Time.deltaTime * speed);
             }
         }
+        
     }
 
 
@@ -58,6 +65,9 @@ public class ControllerCenter : MonoBehaviour
     private void HandlePressDownMenu()
     {
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Menu + " press down");
+       
+        
+
     }
 
     private void HandlePressUpMenu()
@@ -68,6 +78,7 @@ public class ControllerCenter : MonoBehaviour
     private void HandlePressDownGrip()
     {
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Grip + " press down");
+        
     }
 
     private void HandlePressUpGrip()
@@ -78,6 +89,20 @@ public class ControllerCenter : MonoBehaviour
     private void HandlePressDownTouchpad()
     {
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Touchpad + " press down" + WaveVR_ControllerListener.Instance.Input(device).GetAxis());
+        if (istag)
+        {
+            sprite.transform.DOMove(spritePosition.transform.position, 0.5f);
+
+            spritePosition.SetActive(true);
+            sprite.SetActive(false);
+            istag = false;
+        }
+        else
+        {
+            GameManager.Instance.bg.SetActive(false);
+            istag1 = false;
+        }
+            
 
     }
 
@@ -90,6 +115,7 @@ public class ControllerCenter : MonoBehaviour
     private void HandlePressDownTrigger()
     {
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Trigger + " press down");
+        
     }
 
     private void HandlePressUpTrigger()
@@ -108,8 +134,11 @@ public class ControllerCenter : MonoBehaviour
 
     private void HandleTouchDownTouchpad()
     {
+        
         //Debug3D.Instance.Debug(WVR_InputId.WVR_InputId_Alias1_Touchpad + " touch down");
         
+        
+
     }
 
     private void HandleTouchDownTrigger()

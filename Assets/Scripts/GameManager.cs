@@ -10,28 +10,22 @@ public class GameManager : MonoBehaviour {
     public GameObject studymenu;
     public GameObject viewmenu;
     public GameObject guidemenu;
-    public GameObject testmenu;
-    public GameObject markmenu;
     public GameObject Scoremenu;
     public GameObject parents;
     public Image info;
+    public int count=0;
     public Sprite[] infoSprite;
+    public string[] infoname=new string[6];
     public GameObject controller=null;
-    public GameObject studyGameObject;
-    public GameObject guideGameObject;
-
+    public GameObject[] modelPosition;
     public GameObject sprite;
     public GameObject WaveVR;
     public GameObject Initial;
     public GameObject Study;
-    public GameObject Guide;
-    public bool isController=false;
-    public GameObject zhuban;
-    public GameObject jixiang;
-
-    public GameObject mainUI;
-
+    public GameObject Test;
     public GameObject bg;
+    public int score;
+    public bool isGuide;
     public enum state
     {
         BEGIN,
@@ -55,8 +49,6 @@ public class GameManager : MonoBehaviour {
         jixiang,
         xianshi
     }
-
-
     public static GameManager Instance { get; set; }
     public state currentstate;
     public Guideassemblestate curGuideassemblestate;
@@ -65,257 +57,141 @@ public class GameManager : MonoBehaviour {
     public GameObject BT;
 
     public bool isColliter=true;
-    
+
+    public GameObject _zhuban;
+    public bool isZhuban;
+
+    public Text scoreui;
+
     private void Awake()
     {
         Instance = this;
         sprite.SetActive(true);
         WaveVR.transform.position = Initial.transform.position;
-        zhuban.gameObject.layer = 3;
-        jixiang.gameObject.layer = 5;
-        //LogicManager.Instance.Setposition("xianka", true);
-        studyGameObject.SetActive(false);
-        guideGameObject.SetActive(false);
-       
+        isZhuban = true;
+        infoname[0] = "cpu";
+        infoname[1] = "neicuntiao";
+        infoname[2] = "xianka";
+        infoname[3] = "zhuban";
+        infoname[4] = "yingpan";
+        infoname[5] = "dianyuan";
     }
-    
     private void Update()
     {
         if(WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper)&& controller != null&& isColliter)
         {
-
-            Debug3D.Instance.Debug(controller.name + "moveinital");
             MoveDestination(PositionManager.Instance.GetInital(controller));
-            Debug3D.Instance.Debug(controller.name + "setvalurcolor");
-            LogicManager.Instance.SetValueColor(controller.name, 1, false);
-            Debug3D.Instance.Debug(controller.name + "set");
-            SetColliderEnableTrue();
+            LeaveParent();
+
             controller = null;
-            //SetColliderEnableTrue();
-            //if(currentstate==state.GUIDEASSEMBLE)
-            //{
-            //    LogicManager.Instance.SetValueColor(controller.name, 0, false);
-            //}
-            //controller = null;
         }
-        if (currentstate.ToString().Equals("MARK") && WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressDown(wvr.WVR_InputId.WVR_InputId_Alias1_Touchpad))
+        if (modelPosition[0].activeSelf && modelPosition[1].activeSelf && modelPosition[2].activeSelf)
         {
-            mainUI.SetActive(!mainUI.activeSelf);
+            isZhuban = false;
+            _zhuban.SetActive(true);
+        }
+    }
+    
+
+    public void setscore(int index)
+    {
+        scoreui.text = (score -= index).ToString();
+        if(score <=0)
+        {
+            scoreui.text = "0";
+        }
+    }
+
+    public void SetInfo()
+    {
+        count++;
+        info.sprite = infoSprite[count];
+  
+        if(count==3)
+        {
+            isZhuban = false;
         }
     }
 
     /// <summary>
-    /// 更新撞击状态
+    /// 获取状态
     /// </summary>
-    /// <param name="name"></param>
-    public void SetcurGuideassemblestate(string name)
-    {
-        if(name=="cpu")
-        {
-            bg.SetActive(false);
-            curGuideassemblestate = Guideassemblestate.neicuntiao;
-            info.sprite = infoSprite[2];
-        }
-        else if(name == "neicuntiao")
-        {
-            curGuideassemblestate = Guideassemblestate.xianka;
-            info.sprite = infoSprite[4];
-        }
-        else if(name == "xianka")
-        {
-            curGuideassemblestate = Guideassemblestate.zhuban;
-            info.sprite = infoSprite[1];
-            zhuban.gameObject.layer=4;
-           // jixiang.gameObject.layer = 3;
-            
-        }
-        else if(name == "zhuban")
-        {
-            curGuideassemblestate = Guideassemblestate.dianyuan;
-            info.sprite = infoSprite[3];
-        }
-        else if(name == "dianyuan")
-        {
-            curGuideassemblestate = Guideassemblestate.yingpan;
-            info.sprite = infoSprite[6];
-        }
-        else if(name == "yingpan")
-        {
-            curGuideassemblestate = Guideassemblestate.jiban;
-            info.sprite = infoSprite[8];
-        }
-        else if(name == "jiban")
-        {
-            curGuideassemblestate = Guideassemblestate.jixiang;
-            info.sprite = infoSprite[5];
-            mainUI.SetActive(true);
-            SourceManager.Instance.PlayFinish();
-            //jixiang.gameObject.layer = 4;
-        }
-        else if(name == "jixiang")
-        {
-            curGuideassemblestate = Guideassemblestate.xianshi;
-            info.sprite = infoSprite[5];
-        }
-    }
-
-
+    /// <returns>string</returns>
     public string GetCurrentstate()
     {
         return currentstate.ToString();
     }
-
-
-    /// <summary>
-    /// 进入开始状态
-    /// </summary>
-    public void OnBeginState()
-    {   //开始状态执行的方法
-        currentstate = state.BEGIN;
-
-        //更新当前状态
-        currentstate = state.CHOICE;
-
-    }
-    /// <summary>
-    /// 进入选择状态
-    /// </summary>
-    public void OnChoiceState()
+    public void SetModelPositionActive(GameObject gameObject,bool index)
     {
-        sprite.SetActive(false);
+        foreach(GameObject child in modelPosition)
+        {
+            if (child.name.Equals(gameObject.name + "_position"))
+            {
+                Debug.Log("开始进入");
+                child.SetActive(index);
+            }
+        }
+    }
 
-
-        currentstate = state.CHOICE;
+    //////////////////////////-------------------UI部分------------------------------\\\\\\\\\\\\\\\\\\
+    /// <summary>
+    /// 进入mainMenuh界面
+    /// </summary>
+    public void  GomainMenu()
+    {
         mainmenu.SetActive(true);
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
-        testmenu.SetActive(false);
-        //guidemenu.SetActive(false);
-        markmenu.SetActive(false);
-        //Scoremenu.SetActive(false);
-        WaveVR.transform.position = Initial.transform.position;
-        guideGameObject.SetActive(false);
-        studyGameObject.SetActive(false);
+        guidemenu.SetActive(false);
+        Scoremenu.SetActive(false);
+        Study.SetActive(false);
+        Test.SetActive(false);
     }
-    /// <summary>
-    /// 进入学习状态
-    /// </summary>
-    public void OnStudy()
+    public void GostudyMenu()
     {
-        sprite.SetActive(false);
-        currentstate = state.STUDY;
         mainmenu.SetActive(false);
         studymenu.SetActive(true);
         viewmenu.SetActive(false);
-        testmenu.SetActive(false);
-        //guidemenu.SetActive(false);
-        markmenu.SetActive(false);
-        //Scoremenu.SetActive(false);
-
-       
-
+        guidemenu.SetActive(false);
+        Scoremenu.SetActive(false);
+        Study.SetActive(false);
+        Test.SetActive(false);
     }
-    /// <summary>
-    /// 进入观看状态
-    /// </summary>
-    public void OnViewState()
+    public void GoviewMenu()
     {
-        sprite.SetActive(false);
-        currentstate = state.VIEW;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
         viewmenu.SetActive(true);
-        testmenu.SetActive(false);
-        //guidemenu.SetActive(false);
-        markmenu.SetActive(false);
-        //Scoremenu.SetActive(false);
-        WaveVR.transform.position = Study.transform.position;
-        studyGameObject.SetActive(true);
+        guidemenu.SetActive(false);
+        Scoremenu.SetActive(false);
+        Study.SetActive(true);
+        Test.SetActive(false);
     }
-
-
-    //}
-    /// <summary>
-    /// 进入测试状态
-    /// </summary>
-    public void OnTestState()
+    public void Goguidemenu()
     {
-        sprite.SetActive(false);
-        currentstate = state.TEST;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
-        testmenu.SetActive(true);
-        //guidemenu.SetActive(false);
-        markmenu.SetActive(false);
-       // Scoremenu.SetActive(false);
-
+        guidemenu.SetActive(true);
+        Scoremenu.SetActive(false);
+        Test.SetActive(true);
+        isGuide = true;
+        count = 0;
+        _zhuban.SetActive(false);
     }
-
-   
-   /// <summary>
-   /// 进入测试组装状态
-   /// </summary>
-    public void OnMarkState()
+    public void Goscoremenu()
     {
-        sprite.SetActive(false);
-        currentstate = state.MARK;
         mainmenu.SetActive(false);
         studymenu.SetActive(false);
         viewmenu.SetActive(false);
-        testmenu.SetActive(false);
-        //guidemenu.SetActive(false);
-        markmenu.SetActive(true);
-        //Scoremenu.SetActive(false);
-        WaveVR.transform.position = Guide.transform.position;
-
-        guideGameObject.SetActive(true);
-
-        curGuideassemblestate = Guideassemblestate.cpu;
-
-        PositionManager.Instance.SetInitalAll();
-
-
-        bg.SetActive(true);
-
-        mainUI.SetActive(false);
-
-
-
-
+        guidemenu.SetActive(false);
+        Scoremenu.SetActive(true);
+        Test.SetActive(true);
+        isGuide = false;
+        _zhuban.SetActive(false);
     }
-
-
-
-
-    //主板状态执行的方法
-    public void OnMainboardState(int index)
-    {
-       
-       
-
-    }
-
-    //电源状态执行的方法
-    public void OnSourceState()
-    {
-
-    }
-
-    //机箱状态执行的方法
-    public void OnChassisState()
-    {
-
-    }
-
-
-    //主外设状态执行的方法
-    public void OnPeripheralState()
-    {
-
-    }
+    //////////////////////-------------------------END-------------------\\\\\\\\\\\\\\\\\\\\\\\\\
     
-
     /// <summary>
     /// 抓取物体到手柄动画
     /// </summary>
@@ -347,42 +223,8 @@ public class GameManager : MonoBehaviour {
             controller.transform.parent = parents.transform;
     }
 
-    /// <summary>
-    /// 关闭Collider
-    /// </summary>
-    /// <param name="obj"></param>
-    /// <param name="index"></param>
-    public void SetColliderEnableFalse(GameObject obj)
-    {
-        if (controller == null)
-        {
-            Debug3D.Instance.Debug(obj.name + "开始减去mesh");
-            obj.GetComponent<Collider>().enabled = false;
-            Debug3D.Instance.Debug(obj.name + "开始减去ganti");
-            obj.GetComponent<Rigidbody>().useGravity = false;
-            controller = obj;
-            Debug3D.Instance.Debug(controller.name + "关闭");
-        }
-    }
-    /// <summary>
-    /// 开启
-    /// </summary>
-    public void SetColliderEnableTrue()
-    {
-        if (controller != null)
-        {
-            Debug3D.Instance.Debug(controller.name + "Begin");
-            try
-            {
-                controller.GetComponent<Collider>().enabled = true;
-                controller.GetComponent<Rigidbody>().useGravity = false;
-            }
-            catch
-            {
-            }
-            LeaveParent();
-            Debug3D.Instance.Debug(controller.name + "开始离开" + controller.GetComponentInParent<Transform>().name);
-        }
-    }
+
+
+
 
 }
