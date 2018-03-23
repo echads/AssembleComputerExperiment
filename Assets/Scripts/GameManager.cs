@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
     public Image info;
     public int count=0;
     public Sprite[] infoSprite;
-    public string[] infoname=new string[6];
+    public ArrayList infoname = new ArrayList();
     public GameObject controller=null;
     public GameObject[] modelPosition;
     public GameObject sprite;
@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour {
     public GameObject Study;
     public GameObject Test;
     public GameObject bg;
-    public int score;
+    public int score=100;
     public bool isGuide;
     public enum state
     {
@@ -52,29 +52,29 @@ public class GameManager : MonoBehaviour {
     public static GameManager Instance { get; set; }
     public state currentstate;
     public Guideassemblestate curGuideassemblestate;
-    public bool isMAINBORADSTATE;//是否是主板状态
-
     public GameObject BT;
-
     public bool isColliter=true;
-
     public GameObject _zhuban;
     public bool isZhuban;
-
     public Text scoreui;
-
-    private void Awake()
+    private void Start()
     {
         Instance = this;
         sprite.SetActive(true);
         WaveVR.transform.position = Initial.transform.position;
         isZhuban = true;
-        infoname[0] = "cpu";
-        infoname[1] = "neicuntiao";
-        infoname[2] = "xianka";
-        infoname[3] = "zhuban";
-        infoname[4] = "yingpan";
-        infoname[5] = "dianyuan";
+        infoname.Add("cpu");
+        infoname.Add("neicuntiao");
+        infoname.Add("xianka");
+        infoname.Add("zhuban");
+        infoname.Add("yingpan");
+        infoname.Add("dianyuan");
+
+
+
+        //test
+        //PositionManager.Instance.SetInitalAll();
+
     }
     private void Update()
     {
@@ -87,6 +87,7 @@ public class GameManager : MonoBehaviour {
         }
         if (modelPosition[0].activeSelf && modelPosition[1].activeSelf && modelPosition[2].activeSelf)
         {
+            
             isZhuban = false;
             _zhuban.SetActive(true);
         }
@@ -178,6 +179,15 @@ public class GameManager : MonoBehaviour {
         isGuide = true;
         count = 0;
         _zhuban.SetActive(false);
+        SourceManager.Instance.Playyindaochengxu();
+        //初始化物体
+        foreach(GameObject child in modelPosition)
+        {
+            child.SetActive(false);
+        }
+        info.sprite = infoSprite[count];
+        PositionManager.Instance.SetInitalAll();
+
     }
     public void Goscoremenu()
     {
@@ -189,6 +199,16 @@ public class GameManager : MonoBehaviour {
         Test.SetActive(true);
         isGuide = false;
         _zhuban.SetActive(false);
+        score = 100;
+        scoreui.text = score.ToString();
+
+        foreach (GameObject child in modelPosition)
+        {
+            child.SetActive(false);
+        }
+        count = 0;
+        info.sprite = infoSprite[0];
+        PositionManager.Instance.SetInitalAll();
     }
     //////////////////////-------------------------END-------------------\\\\\\\\\\\\\\\\\\\\\\\\\
     

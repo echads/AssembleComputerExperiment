@@ -20,10 +20,13 @@ public class StudyEventHandler : MonoBehaviour,
     private Material green;
     [SerializeField]
     private GameObject img;
+    [SerializeField]
+    private AudioClip clip; 
     #region override event handling function
     public void OnPointerEnter(PointerEventData eventData)
     {
         this.gameObject.GetComponent<MeshRenderer>().material = green;
+        SourceManager.Instance.PlayClip(clip);
         img.SetActive(true);
     }
 

@@ -47,7 +47,7 @@ public class ValueEventHandler : MonoBehaviour,
         if(this.name.Equals(GameManager.Instance.controller.name))
         {
             this.GetComponent<MeshRenderer>().enabled = true;
-            Debug3D.Instance.Debug(GameManager.Instance.infoname[GameManager.Instance.count]);
+            //Debug3D.Instance.Debug(GameManager.Instance.infoname[GameManager.Instance.count]);
             if (GameManager.Instance.isGuide)
             {
                 if (this.name.Equals(GameManager.Instance.infoname[GameManager.Instance.count]))
@@ -89,12 +89,32 @@ public class ValueEventHandler : MonoBehaviour,
       
        if (WaveVR_Controller.Input(wvr.WVR_DeviceType.WVR_DeviceType_Controller_Right).GetPressUp(wvr.WVR_InputId.WVR_InputId_Alias1_Bumper))
         {
+
             //Debug3D.Instance.Debug("FailName:");
             if (this.name.Equals(GameManager.Instance.controller.name))
             {
-                GameManager.Instance.MoveDestination(this.gameObject);
-                GameManager.Instance.LeaveParent();
-                GameManager.Instance.SetInfo();
+                if (GameManager.Instance.isGuide)
+                {
+                    if (this.name.Equals(GameManager.Instance.infoname[GameManager.Instance.count]))
+                    {
+                        GameManager.Instance.MoveDestination(this.gameObject);
+                        GameManager.Instance.LeaveParent();
+                        GameManager.Instance.SetInfo();
+                    }
+                    else
+                    {
+                        SourceManager.Instance.PlayError();
+                        GameManager.Instance.MoveDestination(PositionManager.Instance.GetInital(GameManager.Instance.controller));
+                        GameManager.Instance.LeaveParent();
+                        GameManager.Instance.controller = null;
+                    }
+                }
+                else
+                {
+                    GameManager.Instance.MoveDestination(this.gameObject);
+                    GameManager.Instance.LeaveParent();
+                    GameManager.Instance.SetInfo();
+                }
             }
             else
             {
@@ -102,7 +122,7 @@ public class ValueEventHandler : MonoBehaviour,
                 GameManager.Instance.MoveDestination(PositionManager.Instance.GetInital(GameManager.Instance.controller));
                 GameManager.Instance.LeaveParent();
                 GameManager.Instance.controller = null;
-                if(GameManager.Instance.isGuide)
+                if(!GameManager.Instance.isGuide)
                 {
                     GameManager.Instance.setscore(5);
                 }
@@ -111,9 +131,10 @@ public class ValueEventHandler : MonoBehaviour,
     }
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log(other.name + other.gameObject.layer);
+        //Debug.Log(other.name + other.gameObject.layer);
         if (other.gameObject.layer==10)
         {
+            SourceManager.Instance.PlayTrue();
             GameManager.Instance.SetModelPositionActive(other.gameObject, true);
             GameManager.Instance.controller.SetActive(false);
             GameManager.Instance.controller = null;

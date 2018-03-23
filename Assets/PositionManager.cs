@@ -13,11 +13,12 @@ public class PositionManager : MonoBehaviour {
     public GameObject[] gameObjects;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         Instance = this;
         gameObjects[3].transform.DOMove(GetInital(gameObjects[3]).transform.position,1f);
-        
-	}
+        Debug.Log(initalTransform.Length);
+        //PositionManager.Instance.SetInitalAll();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -44,10 +45,12 @@ public class PositionManager : MonoBehaviour {
     /// </summary>
     public void SetInitalAll()
     {
-        for(int i = 0; i < initalTransform.Length; i++)
+        for(int i = 0; i < 6; i++)
         {
+            gameObjects[i].SetActive(true);
             gameObjects[i].transform.position = initalTransform[i].transform.position;
             gameObjects[i].transform.rotation = initalTransform[i].transform.rotation;
         }
     }
+    
 }
